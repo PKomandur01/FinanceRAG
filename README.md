@@ -1,3 +1,14 @@
+Prerequisites:
+pip install openai
+
+pip install pinecone-client
+
+pip install boto3
+
+npm install @mui/material @emotion/react @emotion/styled
+
+npm install @mui/icons-material
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
