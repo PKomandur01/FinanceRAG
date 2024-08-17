@@ -96,14 +96,16 @@ export default function Home() {
         position: 'relative',
         overflow: 'hidden',
         color: '#ffffff',
+        margin: 0,
+        padding: 0,
       }}
     >
       <Stack
         direction={'column'}
         sx={{
-          width: '90%',
+          width: '100%',
+          height: '100%',
           maxWidth: '600px',
-          height: '80vh',
           borderRadius: '16px',
           overflow: 'hidden',
           boxShadow: '0 0 30px rgba(0, 255, 255, 0.5)',
@@ -136,7 +138,6 @@ export default function Home() {
           sx={{
             flexGrow: 1,
             overflow: 'auto',
-            maxHeight: 'calc(100% - 120px)',
             padding: 2,
             '&::-webkit-scrollbar': {
               width: '10px',
