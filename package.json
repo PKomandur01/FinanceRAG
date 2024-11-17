@@ -19,6 +19,7 @@
     "@mui/icons-material": "^5.16.7",
     "@mui/material": "^5.16.7",
     "@pinecone-database/pinecone": "^3.0.0",
+    "firebase": "^11.0.2",
     "next": "^14.2.5",
     "openai": "^4.56.0",
     "pinecone-client": "^2.0.0",

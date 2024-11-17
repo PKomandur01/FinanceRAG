@@ -1,14 +1,25 @@
+// page.js
 'use client';
 import './globals.css';
-import { Box, Button, Stack, TextField, Typography, CircularProgress } from '@mui/material';
+import {
+  Box,
+  Button,
+  Stack,
+  TextField,
+  Typography,
+  CircularProgress,
+  Avatar,
+  Divider,
+} from '@mui/material';
 import { useState, useRef, useEffect } from 'react';
 import SendIcon from '@mui/icons-material/Send';
+import TypingIndicator from './TypingIndicator';
 
 export default function Home() {
   const [messages, setMessages] = useState([
     {
       role: 'assistant',
-      content: "Welcome to Cro! Your AI diabetes chatbot. How can I assist you today?",
+      content: "Welcome to Infosys! How can I assist you today?",
     },
   ]);
   const [message, setMessage] = useState('');
@@ -16,7 +27,7 @@ export default function Home() {
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
   useEffect(() => {
@@ -43,9 +54,7 @@ export default function Home() {
         body: JSON.stringify([...messages, { role: 'user', content: userMessage }]),
       });
 
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
+      if (!response.ok) throw new Error('Network response was not ok');
 
       const reader = response.body.getReader();
       const decoder = new TextDecoder();
@@ -67,7 +76,10 @@ export default function Home() {
       console.error('Error:', error);
       setMessages((messages) => [
         ...messages,
-        { role: 'assistant', content: "I apologize, but I've encountered an error. Please try again later." },
+        {
+          role: 'assistant',
+          content: "Oops, something went wrong. Please try again later.",
+        },
       ]);
     } finally {
       setIsLoading(false);
@@ -83,69 +95,51 @@ export default function Home() {
 
   return (
     <Box
-      className="scrollbar-custom"
       sx={{
         width: '100vw',
         height: '100vh',
         display: 'flex',
-        flexDirection: 'column',
         justifyContent: 'center',
-        alignItems: 'center',
-        background: `linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6))`,
-        fontFamily: 'Orbitron, sans-serif',
-        position: 'relative',
-        overflow: 'hidden',
-        color: '#ffffff',
-        margin: 0,
-        padding: 0,
+        alignItems: 'flex-start',
+        paddingTop: '40px',
+        background: `linear-gradient(135deg, #f0f4ff, #e0e7ff)`,
       }}
     >
-      <Stack
-        direction={'column'}
+      <Box
         sx={{
-          width: '100%',
-          height: '100%',
+          width: '90%',
           maxWidth: '600px',
           borderRadius: '16px',
-          overflow: 'hidden',
-          boxShadow: '0 0 30px rgba(0, 255, 255, 0.5)',
-          bgcolor: '#1e1e1e',
-          backdropFilter: 'blur(15px)',
-          border: '1px solid #00bcd4',
-          p: 3,
-          spacing: 2,
+          boxShadow: '0 12px 40px rgba(0, 0, 0, 0.2)',
+          backgroundColor: 'rgba(255, 255, 255, 0.85)',
+          backdropFilter: 'blur(20px)',
+          padding: '24px',
           position: 'relative',
         }}
       >
+        {/* Header Text Only */}
         <Typography
-          variant="h4"
+          variant="h5"
           align="center"
-          gutterBottom
           sx={{
-            color: '#00bcd4',
-            fontWeight: 'bold',
-            textShadow: '2px 2px 4px rgba(0, 255, 255, 0.5)',
-            letterSpacing: '2px',
-            borderBottom: '2px solid #00bcd4',
-            paddingBottom: '10px',
+            color: '#005b9f',
+            fontWeight: '600',
+            paddingBottom: '16px',
+            fontFamily: '"Trebuchet MS", "Segoe UI", Arial, sans-serif',
+            fontSize: '1.5rem',
+            letterSpacing: '0.05em',
           }}
         >
-          Cro: Your AI Diabetes Assistant
+          Fin - Powered by Infosys
         </Typography>
+
+        <Divider sx={{ marginBottom: 16 }} />
         <Stack
-          direction={'column'}
+          direction="column"
           spacing={2}
           sx={{
-            flexGrow: 1,
-            overflow: 'auto',
-            padding: 2,
-            '&::-webkit-scrollbar': {
-              width: '10px',
-            },
-            '&::-webkit-scrollbar-thumb': {
-              backgroundColor: '#00bcd4',
-              borderRadius: '10px',
-            },
+            maxHeight: '60vh',
+            overflowY: 'auto',
           }}
         >
           {messages.map((msg, index) => (
@@ -154,68 +148,91 @@ export default function Home() {
               sx={{
                 display: 'flex',
                 justifyContent: msg.role === 'assistant' ? 'flex-start' : 'flex-end',
-                animation: 'fadeIn 0.5s ease',
+                animation: 'fadeIn 0.3s',
               }}
             >
+              {/* Replace Avatar with Inline SVG Logo */}
+              {msg.role === 'assistant' && (
+                <Box
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginRight: '8px',
+                  }}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 256 256"
+                    width="40"
+                    height="40"
+                    aria-label="Infosys Logo"
+                  >
+                    <path fill="#005b9f" d="M20 20h216v216H20z" />
+                    <text
+                      x="50%"
+                      y="50%"
+                      dominantBaseline="middle"
+                      textAnchor="middle"
+                      fill="#ffffff"
+                      fontSize="24"
+                      fontFamily="Arial, sans-serif"
+                    >
+                      Infosys
+                    </text>
+                  </svg>
+                </Box>
+              )}
               <Box
                 sx={{
-                  bgcolor: msg.role === 'assistant' ? '#333' : '#00bcd4',
-                  color: '#ffffff',
+                  bgcolor: msg.role === 'assistant' ? '#e3f2fd' : '#bbdefb',
+                  color: '#333',
                   borderRadius: '12px',
-                  p: 2,
-                  maxWidth: '80%',
-                  boxShadow: '0 0 15px rgba(0, 255, 255, 0.3)',
-                  wordBreak: 'break-word',
+                  padding: '12px',
+                  maxWidth: '75%',
+                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
                 }}
               >
                 {msg.content}
               </Box>
             </Box>
           ))}
+          {isLoading && <TypingIndicator />}
           <div ref={messagesEndRef} />
         </Stack>
-        <Box
-          component="form"
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 1,
-            mt: 2,
-            backgroundColor: '#1e1e1e',
-            padding: 1,
-            borderRadius: '12px',
-            border: '1px solid #00bcd4',
-          }}
-        >
+        <Box sx={{ display: 'flex', gap: 1, paddingTop: '16px' }}>
           <TextField
             fullWidth
             multiline
-            maxRows={4}
-            variant="outlined"
+            maxRows={3}
             placeholder="Type your message..."
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             onKeyDown={handleKeyPress}
             sx={{
-              bgcolor: '#333',
-              borderRadius: '12px',
-              input: { color: '#ffffff' },
-              '& fieldset': { borderColor: '#00bcd4' },
-              '&:hover fieldset': { borderColor: '#00bcd4' },
-              '&.Mui-focused fieldset': { borderColor: '#00bcd4' },
+              borderRadius: '8px',
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': { borderColor: '#90caf9' },
+                '&:hover fieldset': { borderColor: '#64b5f6' },
+                '&.Mui-focused fieldset': { borderColor: '#42a5f5' },
+              },
             }}
           />
           <Button
             variant="contained"
-            color="primary"
-            endIcon={isLoading ? <CircularProgress size={24} /> : <SendIcon />}
+            endIcon={isLoading ? <CircularProgress size={20} /> : <SendIcon />}
             onClick={sendMessage}
-            sx={{ height: '100%', borderRadius: '12px', bgcolor: '#00bcd4', '&:hover': { bgcolor: '#0097a7' } }}
+            sx={{
+              borderRadius: '8px',
+              minWidth: '60px',
+              backgroundColor: '#005b9f',
+              '&:hover': { backgroundColor: '#1e88e5' },
+            }}
           >
             Send
           </Button>
         </Box>
-      </Stack>
+      </Box>
     </Box>
   );
 }
